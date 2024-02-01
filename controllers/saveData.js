@@ -1,5 +1,4 @@
-const SaveDataModel = require("../models/saveData");
-const PaymentModel = require("../models/payment");
+const SaveDetailsModel = require("../models/saveData");
 exports.saveData = async (req, res) => {
   try {
     const {
@@ -8,26 +7,27 @@ exports.saveData = async (req, res) => {
       grayOrColored,
       noOfCopies,
       pageSides,
-      paymentDocsId,
+      order_ID,
+      payment_ID,
+      amount,
     } = req.body;
-    console.log(req.body);
     const docUrl = `${req.connection.encrypted ? "https" : "http"}://${
       req.headers.host
     }/${req.file.path}`;
-
-    const savedData = new SaveDataModel({
+    const savedData = new SaveDetailsModel({
       docUrl,
       noOfPages,
       pageSizeFormat,
       grayOrColored,
       noOfCopies,
       pageSides,
-      paymentDocsId,
+      order_id: order_ID,
+      payment_id: payment_ID,
+      amount,
+      currentDate: new Date().toISOString().slice(0, 10),
     });
 
     await savedData.save();
-
-    const paymentData = await PaymentModel.findById(savedData.paymentDocsId);
 
     const printableData = {
       id: savedData._id,
@@ -37,10 +37,10 @@ exports.saveData = async (req, res) => {
       grayOrColored: savedData.grayOrColored,
       noOfCopies: savedData.noOfCopies,
       pageSides: savedData.pageSides,
-      createdAt: savedData.createdAt,
-      orderId: paymentData.order_id,
-      paymentId: paymentData.payment_id,
-      amount: paymentData.amount,
+      createdDate: savedData.currentDate,
+      orderId: savedData.order_id,
+      paymentId: savedData.payment_id,
+      amount: savedData.amount,
     };
 
     return res.status(200).json({ data: printableData, message: "success" });

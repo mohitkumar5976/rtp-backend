@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const saveDataSchema = new mongoose.Schema(
+const saveDetailsSchema = new mongoose.Schema(
   {
     docUrl: String,
     noOfPages: Number,
@@ -8,14 +8,14 @@ const saveDataSchema = new mongoose.Schema(
     grayOrColored: String,
     noOfCopies: Number,
     pageSides: String,
-    paymentDocsId: {
-      type: mongoose.Types.ObjectId,
-      ref: "PaymentModel",
-    },
+    order_id: String,
+    payment_id: String,
+    amount: String,
+    currentDate: String,
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("SaveDataModel", saveDataSchema);
+module.exports = mongoose.model("SaveDetailsModel", saveDetailsSchema);

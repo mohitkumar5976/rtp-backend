@@ -1,6 +1,5 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-const PaymentModel = require("../models/payment");
 
 const razorpayInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -69,16 +68,11 @@ exports.verifyPayment = async (req, res) => {
       .digest("hex");
 
     if (razorpay_signature == resultSign) {
-      const paymentData = new PaymentModel({
+      return res.status(200).json({
+        success: true,
         order_id: razorpay_order_id,
         payment_id: razorpay_payment_id,
         amount: amount / 100,
-      });
-
-      await paymentData.save();
-      return res.status(200).json({
-        success: true,
-        paymentDocsId: paymentData._id,
         message: "Payment verified successfully",
       });
     }
