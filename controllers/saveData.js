@@ -2,6 +2,7 @@ const SaveDetailsModel = require("../models/saveData");
 exports.saveData = async (req, res) => {
   try {
     const {
+      phoneNo,
       noOfPages,
       pageSizeFormat,
       grayOrColored,
@@ -16,6 +17,7 @@ exports.saveData = async (req, res) => {
     }/${req.file.path}`;
     const savedData = new SaveDetailsModel({
       docUrl,
+      phoneNo,
       noOfPages,
       pageSizeFormat,
       grayOrColored,
@@ -32,6 +34,7 @@ exports.saveData = async (req, res) => {
     const printableData = {
       id: savedData._id,
       docUrl: savedData.docUrl,
+      phoneNo: savedData.phoneNo,
       noOfPages: savedData.noOfPages,
       pageSizeFormat: savedData.pageSizeFormat,
       grayOrColored: savedData.grayOrColored,
