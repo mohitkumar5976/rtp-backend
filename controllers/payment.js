@@ -30,7 +30,7 @@ exports.payment = async (req, res) => {
     }
   }
 
-  amount = amount * noOfPages * noOfCopies;
+  amount = amount * noOfPages * noOfCopies + 2;
 
   const options = {
     amount: amount * 100,

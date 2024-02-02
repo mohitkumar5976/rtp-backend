@@ -46,7 +46,7 @@ exports.saveData = async (req, res) => {
       amount: savedData.amount,
     };
 
-    return res.status(200).json({ data: printableData, message: "success" });
+    return res.status(200).json({ printableData, message: "success" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
