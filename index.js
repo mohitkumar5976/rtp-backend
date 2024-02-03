@@ -11,9 +11,18 @@ connection();
 app.use(cors());
 app.use(express.json());
 app.use("/files", express.static("files"));
+app.use("/", express.static(path.join(__dirname, "public/build")));
 
 app.use("/api/v1/details", saveData);
 app.use("/api/v1/payment", payment);
+
+app.get("/", (req, res) => {
+  res.sendFile(express.static(path.join(__dirname, "public/build/index.html")));
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build/index.html"));
+});
 
 app.listen(PORT, (err) => {
   if (err) {
