@@ -12,7 +12,7 @@ exports.saveData = async (req, res) => {
       payment_ID,
       amount,
     } = req.body;
-    const docUrl = `${req.connection.encrypted ? "https" : "http"}://${
+    const docUrl = `https://${
       req.headers.host
     }/${req.file.path}`;
     const savedData = new SaveDetailsModel({
