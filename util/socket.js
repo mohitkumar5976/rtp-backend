@@ -3,12 +3,16 @@ const { Server } = require("socket.io");
 let io;
 module.exports = {
   init: (httpServer) => {
-    io = new Server(httpServer,{
-      cors:{
-        origin:"http://localhost:3000",
-        methods:["GET","POST"],
-        credentials:true
-      }
+    io = new Server(httpServer, {
+      cors: {
+        origin: [
+          `${process.env.USER_FRONTEND_URL}`,
+          ,
+          `${process.env.ADMIN_FRONTEND_URL}`,
+        ],
+        methods: ["GET", "POST"],
+        credentials: true,
+      },
     });
     return io;
   },
