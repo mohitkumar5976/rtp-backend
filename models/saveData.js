@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const saveDetailsSchema = new mongoose.Schema(
   {
+    shopId:String,
     docUrl: String,
-    phoneNo:String,
+    phoneNo: String,
     noOfPages: Number,
     pageSizeFormat: String,
     grayOrColored: String,
