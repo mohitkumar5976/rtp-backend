@@ -3,6 +3,7 @@ const io = require("../util/socket");
 exports.saveData = async (req, res) => {
   try {
     const {
+      shopId,
       phoneNo,
       noOfPages,
       pageSizeFormat,
@@ -15,7 +16,7 @@ exports.saveData = async (req, res) => {
     } = req.body;
     const docUrl = `https://${req.headers.host}/${req.file.path}`;
     const savedData = new SaveDetailsModel({
-      userId: "123",
+      shopId,
       docUrl,
       phoneNo,
       noOfPages,
@@ -28,11 +29,10 @@ exports.saveData = async (req, res) => {
       amount,
       currentDate: new Date().toISOString().slice(0, 10),
     });
-
     await savedData.save();
 
     const printableData = {
-      userId: savedData.userId,
+      shopId: savedData.shopId,
       id: savedData._id,
       docUrl: savedData.docUrl,
       phoneNo: savedData.phoneNo,
@@ -46,12 +46,10 @@ exports.saveData = async (req, res) => {
       paymentId: savedData.payment_id,
       amount: savedData.amount,
     };
-
-    io.getIO().emit("addOrder", {
-      printableData
-    })
-
-     res.status(200).json({ printableData, message: "success" });
+    io.getIO().to(printableData.shopId).emit("addOrder", {
+      printableData,
+    });
+    res.status(200).json({ printableData, message: "success" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
