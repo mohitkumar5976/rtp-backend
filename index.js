@@ -11,7 +11,11 @@ const cors = require("cors");
 connection();
 app.use(
   cors({
-    origin: ["http://localhost:3000", , "http://localhost:3001"],
+    origin: [
+      `${process.env.USER_FRONTEND_URL}`,
+      ,
+      `${process.env.ADMIN_FRONTEND_URL}`,
+    ],
     methods: ["GET", "POST"],
     credentials: true,
   })
