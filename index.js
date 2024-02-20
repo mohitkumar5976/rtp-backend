@@ -9,18 +9,7 @@ const user = require("./routes/user");
 const SaveDetailsModel = require("./models/saveData");
 const cors = require("cors");
 connection();
-app.use(
-  cors({
-    origin: [
-      `${process.env.USER_FRONTEND_URL}`,
-      ,
-      `${process.env.ADMIN_FRONTEND_URL}`,
-    ],
-    methods: ["GET", "POST"],
-     allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use("/files", express.static("files"));
 
