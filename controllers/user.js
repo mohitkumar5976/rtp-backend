@@ -29,13 +29,13 @@ exports.checkShopId = async (req, res) => {
   try {
     const { shopId } = req.body;
 
-    let shopkeeperId = await User.findById(shopId);
+    let shopkeeperId = await User.findOne({ shopId });
 
     if (!shopkeeperId) {
-      return res.json({ status: 404, message: "ShopId doesn't exist" });
+      return res.json({ status: "404", message: "ShopId doesn't exist" });
     }
 
-    return res.json({ status: 200, message: "ShopId Exists" });
+    return res.json({ status: "200", message: "ShopId Exists" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
