@@ -9,6 +9,13 @@ const user = require("./routes/user");
 const SaveDetailsModel = require("./models/saveData");
 const cors = require("cors");
 connection();
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+
+  next();
+});
 app.use(
   cors({
     origin: [
@@ -21,12 +28,7 @@ app.use(
     credentials: true,
   })
 );
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', '*');
 
-  next();
-});
 app.use(express.json());
 app.use("/files", express.static("files"));
 
