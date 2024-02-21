@@ -24,7 +24,6 @@ app.use(
       `${process.env.ADMIN_FRONTEND_URL}`,
     ],
     methods: ["GET", "POST"],
-    allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
     credentials: true,
   })
 );
