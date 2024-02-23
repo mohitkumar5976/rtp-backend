@@ -6,7 +6,8 @@ module.exports = {
     io = new Server(httpServer, {
       cors: {
          origin:`${process.env.ADMIN_FRONTEND_URL}`,
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST"], 
+        allowedHeaders:"*", 
         credentials: true,
       },
     });
