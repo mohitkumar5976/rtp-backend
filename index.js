@@ -11,11 +11,12 @@ const cors = require("cors");
 connection();
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', '*');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
 
   next();
 });
+
 app.use(
   cors({
     origin: [
@@ -24,10 +25,10 @@ app.use(
       `${process.env.ADMIN_FRONTEND_URL}`,
     ],
     methods: ["GET", "POST"],
+
     credentials: true,
   })
 );
-
 app.use(express.json());
 app.use("/files", express.static("files"));
 
@@ -42,18 +43,14 @@ const io = require("./util/socket").init(server);
 io.on("connection", (socket) => {
   console.log("Client connected");
 
-  socket.on("join_room", (room) => {
+  socket.on("join_room", async (room) => {
     socket.join(room.shopId);
 
-    socket.on("getOrders", async (data) => {
-      const orders = await SaveDetailsModel.find({
-        shopId: data.shopId,
-      });
-
-      socket.emit("receiveOrders", {
-        orders,
-      });
+    const orders = await SaveDetailsModel.find({
+      shopId: room.shopId,
     });
+
+    io.to(room.shopId).emit("receiveOrders", {orders});
   });
 
   socket.on("disconnect", () => {
