@@ -15,7 +15,7 @@ exports.login = async (req, res) => {
     }
 
     const userData = {
-      _id: user._id,
+      shopId: user.shopId,
       email: user.email,
     };
 
